@@ -59,8 +59,8 @@
       <Project>{1004a67f-3111-4b2a-b502-0428f8bbb6f2}</Project>
       <Name>ConsoleGraphics</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Library\Vocabulary.csproj">
-      <Project>{07122e46-0301-4d08-a2c8-32f07019e90c}</Project>
+    <ProjectReference Include="..\Vocabulary\Vocabulary.csproj">
+      <Project>{f3578adc-e6ba-4720-8702-e0d07ca699da}</Project>
       <Name>Vocabulary</Name>
     </ProjectReference>
   </ItemGroup>
