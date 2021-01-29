@@ -107,8 +107,9 @@ namespace Vocabulary
                 t.Word2Id = tmp;
                 trnsls.Add(t);
             });
-            var res
-            return lng.Words.Join()
+            return new List<Word>();
+            //var res
+            //return lng.Words.Join()
         }
         //public void AddWord(string word, int languageId, List<int> translationsIds)
         //{
