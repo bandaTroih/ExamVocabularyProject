@@ -19,7 +19,6 @@ namespace Vocabulary
         public int Language2Id { get; set; }
         [DataMember]
         public int Word2Id { get; set; }
-        [DataMember]
 
     }
 }

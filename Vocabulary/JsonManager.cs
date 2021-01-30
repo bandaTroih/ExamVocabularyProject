@@ -12,6 +12,11 @@ namespace Vocabulary
         DataContractJsonSerializer js = new DataContractJsonSerializer(typeof(Dictionary));
         private Dictionary dictionary = new Dictionary();
 
+        public JsonManager(Dictionary dic)
+        {
+            dictionary = dic;
+        }
+
         private string path = @"..\..\Data\Data.json";
         public void SaveData()
         {
@@ -23,14 +28,15 @@ namespace Vocabulary
             //Console.WriteLine("\n> Data saved!");
         }
 
-        public void LoadData()
+        public Dictionary LoadData()
         {
             using (FileStream fs = new FileStream(path, FileMode.Open))
             {
                 dictionary = (Dictionary)js.ReadObject(fs);
+                return dictionary;
             }
-
             //Console.WriteLine("\n> Data loaded!");
         }
+
     }
 }
