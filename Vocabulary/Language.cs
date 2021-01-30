@@ -39,6 +39,8 @@ namespace Vocabulary
 
         public void AddWord(string word)
         {
+            if (word == string.Empty)
+                return;
             try
             {
                 SearchWord(word);

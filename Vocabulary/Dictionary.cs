@@ -42,6 +42,8 @@ namespace Vocabulary
 
         public void AddLanguauge(string language)
         {
+            if (language == string.Empty)
+                return;
             try
             {
                 SearchLanguage(language);

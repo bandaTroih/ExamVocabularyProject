@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using ConsoleGraphics;
+using VocabularyProject.Views;
 
 namespace VocabularyProject
 {
@@ -12,7 +12,8 @@ namespace VocabularyProject
     {
         static void Main(string[] args)
         {
-            Controller controller = new Controller();
+            MainMenu mainMenu = new MainMenu();
+            Controller controller = new Controller(mainMenu);
         }
     }
 }

@@ -7,7 +7,7 @@ namespace ConsoleGraphics
     public class ConsoleInput : ConsoleObject, ISelectableClickable
     {
         public bool Selected { get; set; }
-        public string Value { get; set; }
+        public string Value { get; set; } = string.Empty;
         public ConsoleColor SelectedColor { get; set; } = Config.SelectedColor;
 
         public event EventHandler OnClick;

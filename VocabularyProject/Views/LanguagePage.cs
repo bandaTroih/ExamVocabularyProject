@@ -5,17 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using ConsoleGraphics;
 
-namespace VocabularyProject
+namespace VocabularyProject.Views
 {
     class LanguagePage : ConsoleView
     {
-        public string NewWord
-        {
-            get
-            {
-                return addNewWord.NewWord;
-            }
-        }
+        public string NewWord => addNewWord.NewWord;
+        public Dictionary<string, List<string>> NewWordTranslations => addNewWord.NewWordTranslations;
         public string Language { get; set; }
         public MainMenu Parent { get; set; }
         public LanguagePage(MainMenu parent, string language)
@@ -26,7 +21,7 @@ namespace VocabularyProject
         }
 
 
-        void OnExitButtonClick(object s, EventArgs e)
+        void OnBackButtonClick(object s, EventArgs e)
         {
             Runing = false;
         }
@@ -44,31 +39,30 @@ namespace VocabularyProject
         private AddNewWordPage addNewWord;
         private ConsoleButton BackButton;
         private ConsoleButton AddWord;
-        private ConsoleInput GetAllWordsFromLanguageInput;
         private ConsoleList Words;
 
         private void Initialize()
         {
             BackButton = new ConsoleButton("Back");
             AddWord = new ConsoleButton("Add new word");
-            GetAllWordsFromLanguageInput = new ConsoleInput("Select all words from language");
             Words = new ConsoleList("Words");
 
-            //GetAllWordsFromLanguageInput.OnClick += GetAllWordsFromLanguageInput_OnClick;
-            BackButton.OnClick += OnExitButtonClick;
+            BackButton.OnClick += OnBackButtonClick;
             OnStart += LanguagePage_OnStart;
             AddWord.OnClick += AddWord_OnClick;
 
             Controls.Add(BackButton);
             Controls.Add(AddWord);
             Controls.Add(Words);
-            //Controls.Add(GetAllWordsFromLanguageInput);
         }
 
         private void AddWord_OnClick(object sender, EventArgs e)
         {
+            string TiteBckp = Title;
             addNewWord = new AddNewWordPage(this);
             addNewWord.Run();
+            Title = TiteBckp;
+            UpdateWords();
         }
 
         private void LanguagePage_OnStart(object sender, EventArgs e)

@@ -6,32 +6,30 @@ using System.Threading.Tasks;
 
 using ConsoleGraphics;
 
-namespace VocabularyProject
+namespace VocabularyProject.Views
 {
     class MainMenu : ConsoleView, IApplictionView
     {
         public event EventHandler AddNewWordButtonClick;
-        
         public event SearchWordHandler SearchWord;
         public event GetAllWordsHandler GetAllWordsFromLanguage;
         public event GetAllLanguagesHandler GetAllLanguages;
+        public event GetAllWordTranslationsHandler GetAllWordTranslations;
 
         public List<string> SearchWordInvoker(string word)
             => SearchWord?.Invoke(word);
-
         public List<string> GetAllWordsInvoker(string language)
             => GetAllWordsFromLanguage?.Invoke(language);
-
         public List<string> GetAllLanguagesInvoker()
             => GetAllLanguages?.Invoke();
-
         public void AddNewWordButtonClickInvoker(object sender, EventArgs e)
             => AddNewWordButtonClick?.Invoke(sender, e);
+        public List<string> GetAllWordTranslationsInvoker(string language, string word)
+            => GetAllWordTranslations?.Invoke(language, word);
 
+        public string NewWordText => languagePage.NewWord;
 
-        public string NewWordText => languagePage.NewWord; 
-        
-        public List<string> NewWordTranslations  => throw new NotImplementedException(); 
+        public Dictionary<string, List<string>> NewWordTranslations  => languagePage.NewWordTranslations; 
 
         public string NewWordLanguage => languagePage.Language;
 
@@ -62,14 +60,15 @@ namespace VocabularyProject
 
         private void Language_OnClick(object sender, EventArgs e)
         {
+            string TiteBckp = Title;
             languagePage = new LanguagePage(this, (sender as ConsoleListElement).Text);
             languagePage.Run();
+            Title = TiteBckp;
         }
 
         private LanguagePage languagePage;
         private ConsoleButton ExitButton;
         private ConsoleButton AddLanguage;
-        private ConsoleInput GetAllWordsFromLanguageInput;
         private ConsoleList Languages;
 
         private void Initialize()
@@ -77,16 +76,13 @@ namespace VocabularyProject
             Title = "Library Project";
             ExitButton = new ConsoleButton("Exit");
             AddLanguage = new ConsoleButton("Add new Language");
-            GetAllWordsFromLanguageInput = new ConsoleInput("Select all words from language");
             Languages = new ConsoleList("Languages");
 
-            //GetAllWordsFromLanguageInput.OnClick += GetAllWordsFromLanguageInput_OnClick;
             ExitButton.OnClick += OnExitButtonClick;
             OnStart += MainMenu_OnStart;
 
             Controls.Add(ExitButton);
             Controls.Add(Languages);
-            //Controls.Add(GetAllWordsFromLanguageInput);
         }
 
         private void MainMenu_OnStart(object sender, EventArgs e)
@@ -96,7 +92,9 @@ namespace VocabularyProject
 
         public void ShowError(string text)
         {
+            string TiteBckp = Title;
             new MessageBoxError(text).Run();
+            Title = TiteBckp;
         }
 
         
