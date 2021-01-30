@@ -134,7 +134,7 @@ namespace Vocabulary
             try
             {
                 lng1 = SearchLanguage(language1);
-                lng2 = SearchLanguage(language1);
+                lng2 = SearchLanguage(language2);
             }
             catch (LanguageNotFound)
             { throw; }
