@@ -32,13 +32,6 @@ namespace Vocabulary
             return lng;
         }
 
-        //public Translation SearchTranslation(string language)
-        //{
-        //    Language lng = Languages.Find(l => l.Name.ToLower() == language.ToLower());
-        //    if (lng is null)
-        //        throw new LanguageNotFound($"Language {language} not found");
-        //    return lng;
-        //}
         public Translation SearchTranslation(int language1Id, int word1Id, int language2Id, int word2Id)
         {
             Translation tr = Translations.Find(t => t.Language1Id == language1Id && t.Word1Id == word1Id && t.Language2Id == language2Id && t.Word2Id == word2Id);
@@ -72,17 +65,24 @@ namespace Vocabulary
             }
             catch (TranslationNotFound)
             {
-                Translations.Add(new Translation() { Id = Methods.GetLastElementId((IEnumerable<IEntity>)Translations) + 1 });
+                Translations.Add(new Translation() 
+                { 
+                    Id = Methods.GetLastElementId((IEnumerable<IEntity>)Translations) + 1, 
+                    Language1Id = language1Id, 
+                    Language2Id = language2Id, 
+                    Word1Id = word1Id, 
+                    Word2Id = word2Id 
+                });
             }
         }
-        List<Word> SearchTranslations(string language, string word)
+        public List<Word> SearchTranslations(string language, string word)
         {
             Language lng;
             try
             {
                 lng = SearchLanguage(language);
             }
-            catch(LanguageNotFound)
+            catch (LanguageNotFound)
             {
                 throw;
             }
@@ -107,22 +107,48 @@ namespace Vocabulary
                 t.Word2Id = tmp;
                 trnsls.Add(t);
             });
-            return new List<Word>();
-            //var res
-            //return lng.Words.Join()
+
+            var res = from t in trnsls
+                      from l in Languages
+                      from w in l.Words
+                      where l.Id == t.Language1Id && w.Id == t.Word1Id
+                      select w;
+
+           var res2 = from t in trnsls
+                      from l in Languages
+                      from w in l.Words
+                      where l.Id == t.Language2Id && w.Id == t.Word2Id
+                      select w;
+
+            List<Word> translations = res.ToList<Word>();
+
+            translations.AddRange(res2.ToList<Word>());
+            return translations;
         }
-        //public void AddWord(string word, int languageId, List<int> translationsIds)
-        //{
-        //    int lastId = GetLastElementId((IEnumerable<IEntity>)Words);
-        //    var CheckWd = SearchWord(word, languageId);
-        //    var ChekLng = Languages.Find(l => l.Id == languageId);
-        //    if (CheckWd is null && !(ChekLng is null))
-        //    {
-        //        Word wd = new Word() { Id = lastId + 1, Name = word, LanguageId = languageId };
-        //        Words.Add(wd);
-        //    }
-        //    else if (ChekLng is null)
-        //        throw new LanguageNotFound($"Language {languageId} not found");
-        //}
+
+        public void AddTranslation(string language1, string word1, string language2, string word2)
+        {
+            Language lng1, lng2;
+            try
+            {
+                lng1 = SearchLanguage(language1);
+                lng2 = SearchLanguage(language1);
+            }
+            catch (LanguageNotFound)
+            { throw; }
+            
+            Word wd1, wd2;
+            try
+            { wd1 = lng1.SearchWord(word1); }
+            catch (WordNotFound)
+            { throw; }
+
+            try
+            { wd2 = lng2.SearchWord(word2); }
+            catch (WordNotFound)
+            { lng2.AddWord(word2); wd2 = lng2.SearchWord(word2); }
+
+            AddTranslation(lng1.Id, wd1.Id, lng2.Id, wd2.Id);
+        }
     }
 }
