@@ -47,8 +47,8 @@ namespace VocabularyProject
         public void Init()
         {
             dictionary = new Dictionary();
-            dictionary.AddLanguauge("English");
-            dictionary.AddLanguauge("Russian");
+            dictionary.AddLanguage("English");
+            dictionary.AddLanguage("Russian");
             foreach (var w in EnglishWords)
                 dictionary.Languages[0].AddWord(w);
             foreach (var w in RussianWords)

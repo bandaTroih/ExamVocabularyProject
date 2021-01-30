@@ -1,22 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using Vocabulary.Exceptions;
 
 namespace Vocabulary
 {
-   
+    [DataContract]
     public class Dictionary
     {
+        [DataMember]
         public string  Name { get; set; }
+        [DataMember]
         public List<Language> Languages { get; set; } = new List<Language>();
+        [DataMember]
         public List<Translation> Translations { get; set; } = new List<Translation>();
+
+        #region Methods
+
         public Dictionary()
         {
 
         }
-
-
         public Language SearchLanguage(string language)
         {
             Language lng = Languages.Find(l => l.Name.ToLower() == language.ToLower());
@@ -40,7 +45,7 @@ namespace Vocabulary
             return tr;
         }
 
-        public void AddLanguauge(string language)
+        public void AddLanguage(string language)
         {
             if (language == string.Empty)
                 return;
@@ -152,5 +157,6 @@ namespace Vocabulary
 
             AddTranslation(lng1.Id, wd1.Id, lng2.Id, wd2.Id);
         }
+        #endregion
     }
 }
