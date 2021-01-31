@@ -37,9 +37,13 @@ namespace VocabularyProject
             Serializer.SaveData();
         }
 
-        private List<string> GetAllWordTranslations(string language, string word)
+        private List<Tuple<string, string>> GetAllWordTranslations(string language, string word)
         {
-            return dictionary.SearchTranslations(language, word).Select(w => w.Name).ToList();
+            var wds = dictionary.SearchTranslations(language, word);//.Select(w => w.Name).ToList();
+            List<Tuple<string, string>> lt = new List<Tuple<string, string>>();
+            foreach (var wd in wds)
+                lt.Add(new Tuple<string, string>(dictionary.SearchLanguage(wd.LanguageId).Name, wd.Name));
+            return lt;
         }
 
         private void AddNewWord(object sender, EventArgs e)

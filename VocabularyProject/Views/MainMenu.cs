@@ -28,7 +28,7 @@ namespace VocabularyProject.Views
             => GetAllLanguages?.Invoke();
         public void AddNewWordButtonClickInvoker(object sender, EventArgs e)
             => AddNewWordButtonClick?.Invoke(sender, e);
-        public List<string> GetAllWordTranslationsInvoker(string language, string word)
+        public List<Tuple<string, string>> GetAllWordTranslationsInvoker(string language, string word)
             => GetAllWordTranslations?.Invoke(language, word);
         public void SerializeInvoker()
             => Serialize?.Invoke();
