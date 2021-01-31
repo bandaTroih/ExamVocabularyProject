@@ -51,6 +51,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\MainMenu.cs" />
+    <Compile Include="Views\WordPage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

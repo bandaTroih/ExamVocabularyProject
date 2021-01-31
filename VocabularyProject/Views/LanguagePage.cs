@@ -32,10 +32,21 @@ namespace VocabularyProject.Views
             List<string> wds = Parent.GetAllWordsInvoker(Language);
             foreach(var w in wds)
             {
-                Words.Elements.Add(new ConsoleListElement(Words, w, ConsoleColor.Blue));
+                ConsoleListElement ce = new ConsoleListElement(Words, w, ConsoleColor.Blue);
+                ce.OnClick += Ce_OnClick;
+                Words.Elements.Add(ce);
             }
         }
 
+        private void Ce_OnClick(object sender, EventArgs e)
+        {
+            string TiteBckp = Title;
+            wordPage = new WordPage(this, (sender as ConsoleListElement).Text);
+            wordPage.Run();
+            Title = TiteBckp;
+        }
+
+        private WordPage wordPage;
         private AddNewWordPage addNewWord;
         private ConsoleButton BackButton;
         private ConsoleButton AddWord;

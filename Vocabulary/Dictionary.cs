@@ -130,6 +130,7 @@ namespace Vocabulary
             List<Word> translations = res.ToList<Word>();
 
             translations.AddRange(res2.ToList<Word>());
+            translations.RemoveAll(w => w.Name == word);
             return translations;
         }
 
