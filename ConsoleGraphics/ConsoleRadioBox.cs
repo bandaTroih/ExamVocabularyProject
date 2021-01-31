@@ -34,17 +34,25 @@ namespace ConsoleGraphics
             Text = text;
             Color = color;
         }
+        
         public override void Draw()
         {
             Console.Write("  ");
+            
             if (Selected)
             {
                 Console.Write(Config.SelectedPrefix);
+                if (Checked)
+                    Console.Write("*");
                 Console.ForegroundColor = SelectedColor;
                 Console.WriteLine(Text);
             }
             else
+            {
+                if (Checked)
+                    Console.Write("*");
                 base.Draw();
+            }
             Console.ResetColor();
         }
     }
@@ -53,6 +61,13 @@ namespace ConsoleGraphics
     public class ConsoleRadioBox : ConsoleObject, IIteratable
     {
         public List<ISelectableClickable> Elements { get; set; } = new List<ISelectableClickable>();
+        void InitialCheck()
+        {
+            if (Elements.Count == 0)
+                return;
+            if ((ConsoleRadioBoxElement)Elements.Find(elem => (elem as ConsoleRadioBoxElement).Checked) == null)
+                (Elements[0] as ConsoleRadioBoxElement).Checked = true;
+        }
         public ConsoleRadioBoxElement Checked 
         {
             get
@@ -76,6 +91,7 @@ namespace ConsoleGraphics
         }
         public override void Draw()
         {
+            InitialCheck();
             Console.ForegroundColor = Color;
             Console.WriteLine(Text);
             Console.ResetColor();

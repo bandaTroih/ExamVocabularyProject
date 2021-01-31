@@ -10,17 +10,8 @@ namespace VocabularyProject.Views
     class AddNewWordPage : ConsoleView
     {
         public string NewWord => WordInput.Value;
-        public Dictionary<string, List<string>> NewWordTranslations { get; set; }
-        //{
-        //    get
-        //    {
-        //        List<string> res = new List<string>();
-        //        for (int i = 1; i < Translations.Elements.Count; i++)
-        //            if ((Translations.Elements[i] as ConsoleInput).Value != string.Empty)
-        //                res.Add((Translations.Elements[i] as ConsoleInput).Value);
-        //        return new Dictionary<string, List<string>> { { "Russian", res } };
-        //    }
-        //}
+        public List<Tuple<string, string>> NewWordTranslations { get; set; } = new List<Tuple<string, string>>();
+
         public string Language { get; set; }
         public LanguagePage Parent { get; set; }
         public AddNewWordPage(LanguagePage parent)
@@ -34,6 +25,12 @@ namespace VocabularyProject.Views
         void OnBackButtonClick(object s, EventArgs e)
         {
             Runing = false;
+        }
+        void UpdateTranslations()
+        {
+            Translations.Elements.RemoveRange(1, Translations.Elements.Count-1);
+            foreach (var t in NewWordTranslations)
+                Translations.Elements.Add(new ConsoleListElement(Translations, $"{t.Item1} - {t.Item2}"));
         }
 
 
@@ -53,7 +50,7 @@ namespace VocabularyProject.Views
             BackButton.OnClick += OnBackButtonClick;
             OnStart += AddNewWordPage_OnStart;
             AddWord.OnClick += AddWord_OnClick;
-            ConsoleButton addNewTranslation = new ConsoleButton("Add new one");
+            ConsoleButton addNewTranslation = new ConsoleButton("  Add new one");
             addNewTranslation.OnClick += AddNewTranslation_OnClick;
             Translations.Elements.Add(addNewTranslation);
 
@@ -69,7 +66,10 @@ namespace VocabularyProject.Views
             addTranslationToWordPage = new AddTranslationToWordPage(this);
             addTranslationToWordPage.Run();
             Title = TitleBckp;
-            //Translations.Elements.Add(new ConsoleInput(NewWord));
+            if (addTranslationToWordPage.NewWordTranslation.Item2 != string.Empty)
+                NewWordTranslations.Add(addTranslationToWordPage.NewWordTranslation);
+
+            UpdateTranslations();
         }
 
         private void AddWord_OnClick(object sender, EventArgs e)
