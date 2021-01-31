@@ -13,17 +13,28 @@ namespace VocabularyProject
     {
         private IApplictionView app;
         private Dictionary dictionary;
-        private List<string> EnglishWords = new List<string>(){"ability","able", "about", "above", "accept", "according", "account", "across", "act", "action", "activity", "actually", "add", "address", "administration", "admit", "adult", "affect", "after", "again", "against", "age", "agency"};
-        private List<string> RussianWords = new List<string>() {"способность", "способный", "о", "выше", "принять", "согласно", "аккаунт", "через", "действовать" , "действие", "активность", "на самом деле", "добавить", "адрес", "администрация", "принять", "взрослый", "аффект", "после", "снова", "против", "возраст ","агентство "};
+        JsonManager Serializer;
         public Controller(IApplictionView view)
         {
-            Init();
+            Serializer = new JsonManager(dictionary);
             app = view;
             app.GetAllWordsFromLanguage += GetAllWords;
             app.GetAllLanguages += this.GetAllLanguages;
             app.AddNewWordButtonClick += AddNewWord;
+            app.Serialize += Serialize;
+            app.DeSerialize += DeSerialize;
             app.GetAllWordTranslations += GetAllWordTranslations;
             app.Run();
+        }
+
+        private void DeSerialize()
+        {
+            dictionary = Serializer.LoadData();
+        }
+
+        private void Serialize()
+        {
+            Serializer.SaveData();
         }
 
         private List<string> GetAllWordTranslations(string language, string word)
@@ -44,18 +55,6 @@ namespace VocabularyProject
                 dictionary.AddTranslation(app.NewWordLanguage, app.NewWordText, t.Item1, t.Item2);
         }
 
-        public void Init()
-        {
-            dictionary = new Dictionary();
-            dictionary.AddLanguage("English");
-            dictionary.AddLanguage("Russian");
-            foreach (var w in EnglishWords)
-                dictionary.Languages[0].AddWord(w);
-            foreach (var w in RussianWords)
-                dictionary.Languages[1].AddWord(w);
-            for (int i = 0; i < EnglishWords.Count(); i++)
-                dictionary.AddTranslation(1, i + 1, 2, i + 1);
-        }
         public List<string> GetAllWords(string language)
         {
             Language lng;

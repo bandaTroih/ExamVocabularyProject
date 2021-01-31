@@ -17,25 +17,21 @@ namespace Vocabulary
             dictionary = dic;
         }
 
-        private string path = @"..\..\Data\Data.json";
-        public void SaveData()
+        public void SaveData(string path = @"..\..\Data\Data.json")
         {
             using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
             {
                 js.WriteObject(fs, dictionary);
             }
-
-            //Console.WriteLine("\n> Data saved!");
         }
 
-        public Dictionary LoadData()
+        public Dictionary LoadData(string path = @"..\..\Data\Data.json")
         {
             using (FileStream fs = new FileStream(path, FileMode.Open))
             {
                 dictionary = (Dictionary)js.ReadObject(fs);
                 return dictionary;
             }
-            //Console.WriteLine("\n> Data loaded!");
         }
 
     }
