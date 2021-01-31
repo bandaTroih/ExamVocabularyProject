@@ -2,16 +2,22 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using System.Runtime.Serialization;
 using Vocabulary.Exceptions;
 
 namespace Vocabulary
 {
+    [DataContract]
     public class Language : IEntity
     {
+        [DataMember]
         public int Id { get; set; } = 0;
+        [DataMember]
         public string Name { get; set; }
+        [DataMember]
         public List<Word> Words { get; set; } = new List<Word>();
 
+        #region Methods
         public Language()
         { }
 
@@ -55,5 +61,7 @@ namespace Vocabulary
             var wds = Words.Select(w => w.Name).ToList();
             return wds;
         }
+
+        #endregion
     }
 }
