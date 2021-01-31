@@ -12,8 +12,8 @@ namespace VocabularyProject
     {
         static void Main(string[] args)
         {
-            MainMenu mainMenu = new MainMenu();
-            Controller controller = new Controller(mainMenu);
+            MainMenu mainMenu = new MainMenu();//создание View
+            Controller controller = new Controller(mainMenu);//создание контроллера
         }
     }
 }
