@@ -10,7 +10,7 @@ namespace VocabularyProject.Views
     class LanguagePage : ConsoleView
     {
         public string NewWord => addNewWord.NewWord;
-        public Dictionary<string, List<string>> NewWordTranslations => addNewWord.NewWordTranslations;
+        public List<Tuple<string, string>> NewWordTranslations => addNewWord.NewWordTranslations;
         public string Language { get; set; }
         public MainMenu Parent { get; set; }
         public LanguagePage(MainMenu parent, string language)

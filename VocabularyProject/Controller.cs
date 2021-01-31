@@ -40,8 +40,8 @@ namespace VocabularyProject
                 var lng = dictionary.SearchLanguage(app.NewWordLanguage);
                 lng.AddWord(app.NewWordText);
             }
-            //foreach(var t in app.NewWordTranslations)
-                //dictionary.AddTranslation(app.NewWordLanguage, app.NewWordText, )
+            foreach (var t in app.NewWordTranslations)
+                dictionary.AddTranslation(app.NewWordLanguage, app.NewWordText, t.Item1, t.Item2);
         }
 
         public void Init()

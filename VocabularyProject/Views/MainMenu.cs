@@ -29,7 +29,7 @@ namespace VocabularyProject.Views
 
         public string NewWordText => languagePage.NewWord;
 
-        public Dictionary<string, List<string>> NewWordTranslations  => languagePage.NewWordTranslations; 
+        public List<Tuple<string, string>> NewWordTranslations  => languagePage.NewWordTranslations; 
 
         public string NewWordLanguage => languagePage.Language;
 

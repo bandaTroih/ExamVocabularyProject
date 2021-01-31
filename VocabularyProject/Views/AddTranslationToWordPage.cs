@@ -9,11 +9,8 @@ namespace VocabularyProject.Views
 {
     class AddTranslationToWordPage : ConsoleView
     {
-        public Dictionary<string, List<string>> NewWordTranslation 
-            => new Dictionary<string, List<string>>() 
-            { 
-                { Languages.Checked.Text, new List<string>() { TranslationInput.Value } } 
-            };
+        public Tuple<string, string> NewWordTranslation
+            => new Tuple<string, string>(Languages.Checked.Text, TranslationInput.Value);
 
         public string Language { get; set; }
         public AddNewWordPage Parent { get; set; }
@@ -46,7 +43,7 @@ namespace VocabularyProject.Views
 
             BackButton.OnClick += OnBackButtonClick;
             OnStart += AddTranslationToWordPage_OnStart;
-            AddTranslation.OnClick += AddTranslation_OnClick;
+            AddTranslation.OnClick += AddNewTranslation_OnClick;
             foreach (var l in Parent.Parent.Parent.GetAllLanguagesInvoker())
                 if(l != Language)
                     Languages.Elements.Add(new ConsoleRadioBoxElement(Languages, l));
@@ -61,13 +58,8 @@ namespace VocabularyProject.Views
 
         private void AddNewTranslation_OnClick(object sender, EventArgs e)
         {
-
+            Runing = false;
             //Translations.Elements.Add(new ConsoleInput(NewWord));
-        }
-
-        private void AddTranslation_OnClick(object sender, EventArgs e)
-        {
-            
         }
 
         private void AddTranslationToWordPage_OnStart(object sender, EventArgs e)

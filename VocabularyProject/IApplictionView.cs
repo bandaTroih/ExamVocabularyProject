@@ -14,7 +14,7 @@ namespace VocabularyProject
     {
         string NewWordText { get; }
         string NewWordLanguage { get; }
-        Dictionary<string, List<string>> NewWordTranslations { get; }
+        List<Tuple<string, string>> NewWordTranslations { get; }
 
         event EventHandler AddNewWordButtonClick;
         event GetAllWordsHandler GetAllWordsFromLanguage;
